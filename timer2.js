@@ -7,28 +7,24 @@ stdin.setEncoding('utf8');
 // Event Handling for User Input
 ////////////
 
-// on any input from stdin (standard input), output a "." to stdout
-// stdin.on('data', (key) => {
-//   process.stdout.write('.');
-// });
+const beep = () => {
+  process.stdout.write("\x07");
+};
 
 const main = () => {
   stdin.on('data', (key) => {
     if (key === 'b') {
-      process.stdout.write("\x07");
+      beep();
+    } else if (!isNaN(key)) {
+      console.log(`You set an alarm for ${key} seconds.`);
+      setTimeout(() => {
+        beep();
+      }, key * 1000);
+    } else if (key === '\u0003') {
+      console.log("Thanks for using me, ciao!");
+      process.exit();
     }
   });
-
-  // for (const item of input) {
-  //   let timer = Number(item) * 1000;
-  //   if (timer < 0 || isNaN(timer)) {
-  //     continue;
-  //   }
-  //   setTimeout(() => {
-  //     console.log(timer);
-  //     process.stdout.write('\x07');
-  //   }, timer);
-  // }
 };
 
 main();
